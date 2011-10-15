@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+        
+    <parameters>
+        <parameter key="culabs_jquery.javascriptag.class">CULabs\jQueryBundle\Twig\JavascripBaseExtension</parameter>
+        <parameter key="culabs_jquery.ajax.class">CULabs\jQueryBundle\Twig\AjaxExtension</parameter>
+        <parameter key="culabs_jquery.basefunction.class">CULabs\jQueryBundle\Twig\BaseFunctionsExtension</parameter>
+    </parameters>
+
+    <services>
+        <!-- Twig Extension -->
+        <service id="twig.extension.javascriptag" class="%culabs_jquery.javascriptag.class%" public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="twig.extension.jquery.ajax" class="%culabs_jquery.ajax.class%" public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="twig.extension.jquery.function" class="%culabs_jquery.basefunction.class%" public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- Form extension -->
+        <service id="form.type.jquery.autocomplete" class="CULabs\jQueryBundle\Widget\AutocompleteType">
+            <tag name="form.type" alias="jquery_autocomplete" />
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="form.type.jquery.doctrine_autocomplete" class="CULabs\jQueryBundle\Widget\AutocompleteDoctrineType">
+            <tag name="form.type" alias="jquery_doctrine_autocomplete" />
+            <argument type="service" id="service_container" />
+            <argument type="service" id="doctrine" />
+        </service>
+        
+        <service id="twig.extension.form.jquery" alias="twig.extension.form" />
+        
+    </services>
+    
+</container>

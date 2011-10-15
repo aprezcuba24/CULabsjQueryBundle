@@ -1,0 +1,67 @@
+<?php $with_query = isset ($with_query)? '&'.$with_query: ''?>
+
+<div class="pagindor">
+  <span class="inicio">
+      {% if pager.currentPage == 1 %}
+          <a href="#">{{ 'jquery.pager.inicio'|trans }}</a>
+      {% else %}
+          <a href="#" onclick="{{ jq_remote_function({
+            'update':   zona, 
+            'url':      url,
+            'method':   'GET',
+            'with':     "'page=1'",
+            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+          }) }}">{{ 'jquery.pager.inicio'|trans }}</a>
+      {% endif %}
+  </span>
+  <span class="atras">
+      {% if pager.hasPreviousPage %}
+          <a href="#" onclick="{{ jq_remote_function({
+            'update':   zona, 
+            'url':      url,
+            'method':   'GET',
+            'with':     jq_sprintf("'page=%s'", pager.previousPage),
+            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+          }) }}">{{ 'jquery.pager.atras'|trans }}</a>
+      {% else %}
+          <a href="#">{{ 'jquery.pager.atras'|trans }}</a>
+      {% endif %}
+  </span>
+  <span class="pagina-acual">{{ pager.currentPage }}</span> / <span class="total-paginas">{{ pager.nbPages }}</span>
+  <span class="siguiente">
+      {% if pager.hasNextPage %}
+          <a href="#" onclick="{{ jq_remote_function({
+            'update':   zona, 
+            'url':      url,
+            'method':   'GET',
+            'with':     jq_sprintf("'page=%s'", pager.nextPage),
+            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+          }) }}">{{ 'jquery.pager.siguiente'|trans }}</a>
+      {% else %}
+          <a href="#">{{ 'jquery.pager.siguiente'|trans }}</a>
+      {% endif %}
+  </span>
+  <span class="final">
+      {% if pager.currentPage != pager.nbPages %}
+          <a href="#" onclick="{{ jq_remote_function({
+            'update':   zona, 
+            'url':      url,
+            'method':   'GET',
+            'with':     jq_sprintf("'page=%s'", pager.nbPages),
+            'complete': jq_sprintf("jQuery('#indicador_%s').hide();", zona),
+            'loading':  jq_sprintf("jQuery('#indicador_%s').show();", zona),
+          }) }}">{{ 'jquery.pager.final'|trans }}</a>
+      {% else %}
+          <a href="#">{{ 'jquery.pager.final'|trans }}</a>
+      {% endif %}
+  </span>
+
+  <?php if (!isset ($indicador)):?>
+  <span style="display: none" class="indicador" id="indicador_{{ zona }}">
+      <img src="{{ asset('images/loader.gif') }}"/>
+  </span>
+  <?php endif;?>
+</div>

@@ -1,0 +1,13 @@
+{% extends 'CULabsjQueryBundle:Widget:autocomplete.html.twig' %}
+
+{% block jquery_doctrine_autocomplete_label %}
+    {{ block('jquery_autocomplete_label') }}
+{% endblock jquery_doctrine_autocomplete_label %}
+
+{% block jquery_doctrine_autocomplete_widget %}
+    {{ block('jquery_autocomplete_widget') }}
+{% endblock jquery_doctrine_autocomplete_widget %}
+
+{% block jquery_autocomplete_data %}
+    '{{ path(url, {'limit':limit}) }}'
+{% endblock jquery_autocomplete_data %}

@@ -1,0 +1,45 @@
+{% block jquery_autocomplete_label %}
+{% spaceless %}
+    {% set attr = attr|merge({'for': id_visible}) %}
+    {{ block('generic_label') }}
+{% endspaceless %}
+{% endblock jquery_autocomplete_label %}
+
+{% block jquery_autocomplete_widget %}
+    {% set type = type|default('hidden') %}
+    {% set value = value_hidden %}
+    {{ block('field_widget') }} 
+    {% set id_hidden  = id %}
+    {% set id         = id_visible %}
+    {% set full_name  = full_name_visible %}
+    {% set type = 'text' %}
+    {% set value = value_visible %}
+    {{ block('field_widget') }} 
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    $(function() {
+        var data_{{ id_hidden }} = {% block jquery_autocomplete_data %}[
+            {% for id, label in choices %}
+             {
+                 id:    '{{ id }}',
+                 label: '{{ label }}'
+             }{% if not loop.last %},{% endif %} 
+            {% endfor %}
+        ];{% endblock jquery_autocomplete_data %}
+        
+        $( "#{{ id_visible }}" ).autocomplete(jQuery.extend({}, {
+                source: data_{{ id_hidden }},
+                select: function( event, ui ) {
+                    $( "#{{ id_visible }}" ).val( ui.item.label );
+                    $( "#{{ id_hidden }}" ).val( ui.item.id );
+
+                    return false;
+                }
+            }, {{ config }})
+        );
+    });
+    //]]>
+    </script>
+    
+{% endblock jquery_autocomplete_widget %}
