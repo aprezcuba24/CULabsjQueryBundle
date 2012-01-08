@@ -1,0 +1,14 @@
+{% block jquery_datepicker_widget %}
+{% spaceless %}
+    {{ block('field_widget') }}    
+    <script type="text/javascript">
+    //<![CDATA[
+    $(function() {
+        $( "#{{ id }}" ).datepicker({
+            {{ jq_config|raw }}
+        });
+    });
+    //]]>
+    </script>
+{% endspaceless %}
+{% endblock jquery_datepicker_widget %}

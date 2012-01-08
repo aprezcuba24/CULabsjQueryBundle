@@ -20,9 +20,26 @@ class CULabsjQueryExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);  
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        $this->complilePhpToJq($container);
+    }
+    
+    protected function complilePhpToJq(ContainerBuilder $container)
+    {
+        $items = array();
+        
+        foreach ($container->findTaggedServiceIds('jquery.phptojq') as $serviceId => $tag) {
+            $alias = isset($tag[0]['alias'])
+                ? $tag[0]['alias']
+                : $serviceId;
+            
+            $items[$alias] = $serviceId;
+        }
+        
+        $container->getDefinition('form.type.jquery.datepicker')->replaceArgument(1, $items);
     }
 }

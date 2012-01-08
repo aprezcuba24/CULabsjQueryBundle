@@ -51,3 +51,10 @@ Este Widget permite el autocompletamiento dado un conjunto de datos definidos. P
             'user2' => 'Usuario2'
         )
     ));
+
+DatepickerType
+--------------
+
+Permite la creación de datepicker
+
+    $builder->add('fecha', 'jquery_datepicker')
