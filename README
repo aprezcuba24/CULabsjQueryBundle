@@ -1,0 +1,53 @@
+CULabsjQueryBundle
+==================
+
+AutocompleteDoctrineType
+------------------------
+
+Este widget permite utilizar el widget "autocomplete" de jQuery.
+Para poner un ejemplo supongamos que tenemos una entidad con el nombre "AcmeDemoBundle:User" y tiene una relación de "uno a mucho" con una entidad "AcmeDemoBundle:Tienda". En la clase "TiendaType" adicionamos el siguiente campo al "builder"
+
+    $builder->add('gestor', 'jquery_doctrine_autocomplete', array(
+        'url'   => 'autocomplete_user',
+        'class' => 'AcmeDemoBundle:User',
+    ));
+
+El campo "url" es el que contiene el nombre de la ruta a utilizar en el autocompletamiento.
+El siguiente paso es crear la ruta "autocomplete_user". El bundle contiene una controladora genérica para el trabajo con cualquier entidad. Si lo crees necesario puedes utilizar una controladora própia o extender esta.
+
+
+    autocomplete_user:
+    pattern:  /autocomplete_user
+    defaults:
+      _controller: CULabsjQueryBundle:AutocompleteDoctrine:index
+      class: CULabsMainBundle:User
+      method_for_query: autocomplete
+
+El campo "method_for_query" es utilizado para indicar que método de la clase repositorio será utilizado para hacer la consulta. En el siguiente fragmento de código se ve un ejemplo.
+
+    class UserRepository extends EntityRepository
+    {
+        public function autocomplete(array $param)
+        {
+            $qb = $this->createQueryBuilder('user');
+        
+            return $qb->where($qb->expr()->like($qb->expr()->concat('user.name', $qb->expr()->concat('\' \'', 'user.lastname')), $qb->expr()->literal(sprintf('%%%s%%', $param['term']))))
+                      ->setMaxResults($param['limit'])
+                      ->getQuery()
+                      ->execute()
+            ;
+        }
+    }
+ 
+AutocompleteType
+----------------
+
+Este Widget permite el autocompletamiento dado un conjunto de datos definidos. Para usarlo solo hay que adicionar el siguiente código en el método "buildForm" de un formulario.
+
+    $builder->add('usuario', 'jquery_autocomplete', array(
+        'choices' => array(
+            'admin' => 'Administrador', 
+            'user1' => 'Usuario1', 
+            'user2' => 'Usuario2'
+        )
+    ));
