@@ -41,5 +41,6 @@ class CULabsjQueryExtension extends Extension
         }
         
         $container->getDefinition('form.type.jquery.datepicker')->replaceArgument(1, $items);
+        $container->getDefinition('form.type.jquery.datetimepicker')->replaceArgument(1, $items);
     }
 }

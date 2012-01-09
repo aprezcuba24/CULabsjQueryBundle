@@ -58,3 +58,10 @@ DatepickerType
 Permite la creación de datepicker
 
     $builder->add('fecha', 'jquery_datepicker')
+
+DatetimepickerType
+------------------
+
+Permite la creación de datepicker, usando el plugin "http://trentrichardson.com/examples/timepicker/"
+
+    $builder->add('fecha', 'jquery_datetimepicker')

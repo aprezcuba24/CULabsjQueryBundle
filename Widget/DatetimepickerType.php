@@ -7,6 +7,8 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ * 
+ * Usa: http://trentrichardson.com/examples/timepicker/
  */
 
 namespace CULabs\jQueryBundle\Widget;
@@ -20,7 +22,7 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer;
 
-class DatepickerType extends AbstractType
+class DatetimepickerType extends AbstractType
 {
     protected $container, 
               $php_to_jq;
@@ -47,14 +49,14 @@ class DatepickerType extends AbstractType
      */
     public function getName()
     {
-        return 'jquery_datepicker';
+        return 'jquery_datetimepicker';
     }
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $format = $options['format'];
+        $format  = $options['date_format'];
         $pattern = null;
 
         $allowedFormatOptionValues = array(
@@ -69,8 +71,8 @@ class DatepickerType extends AbstractType
             if (is_string($format)) {
                 $defaultOptions = $this->getDefaultOptions($options);
 
-                $format = $defaultOptions['format'];
-                $pattern = $options['format'];
+                $format = $defaultOptions['date_format'];
+                $pattern = $options['date_format'];
             } else {
                 throw new CreationException('The "format" option must be one of the IntlDateFormatter constants (FULL, LONG, MEDIUM, SHORT) or a string representing a custom pattern');
             }
@@ -79,12 +81,18 @@ class DatepickerType extends AbstractType
         $jq_config = $options['jq_config'];        
         if (!isset ($jq_config['dateFormat'])) {
          
-            $date_formatter = new \IntlDateFormatter(\Locale::getDefault(), $format, \IntlDateFormatter::NONE, $options['user_timezone'], $options['calendar'], $pattern);
+            $date_formatter = new \IntlDateFormatter(\Locale::getDefault(), $format, $options['time_format'], $options['user_timezone'], \IntlDateFormatter::GREGORIAN, $pattern);
                         
-            $jq_config['dateFormat'] = $this->getPhpToJqService(\Locale::getDefault())->datepickerPattern($date_formatter->getPattern());            
+            $jq_config['dateFormat'] = $this->getPhpToJqService(\Locale::getDefault())->datetimepickerPattern($date_formatter->getPattern());
         }
+        
+        if ($options['time_format'] === \IntlDateFormatter::MEDIUM) {
             
-        $builder->appendClientTransformer(new DateTimeToLocalizedStringTransformer($options['data_timezone'], $options['user_timezone'], $format, \IntlDateFormatter::NONE, $options['calendar'], $pattern));
+            $jq_config['showSecond'] = 'true';
+            $jq_config['timeFormat'] = "'hh:mm:ss'";
+        }
+        
+        $builder->appendClientTransformer(new DateTimeToLocalizedStringTransformer($options['data_timezone'], $options['user_timezone'], $format, $options['time_format'], $options['calendar'], $pattern));
         
         $builder
             ->setAttribute('jq_config', $jq_config)
@@ -92,7 +100,7 @@ class DatepickerType extends AbstractType
     }
     public function buildView(FormView $view, FormInterface $form)
     {
-        $this->container->get('twig.extension.form.jquery')->setTheme($view, array('CULabsjQueryBundle:Widget:datepicker.html.twig'));
+        $this->container->get('twig.extension.form.jquery')->setTheme($view, array('CULabsjQueryBundle:Widget:datetimepicker.html.twig'));
         
         $view->set('jq_config', $this->joinJqConfig($form->getAttribute('jq_config')));
     }
@@ -101,12 +109,13 @@ class DatepickerType extends AbstractType
      */
     public function getDefaultOptions(array $options)
     {
-        return array(            
-            'format'         => \IntlDateFormatter::SHORT,
-            'data_timezone'  => null,
-            'user_timezone'  => null,            
-            'jq_config'      => array(),
-            'calendar'       => \IntlDateFormatter::GREGORIAN,
+        return array(           
+            'jq_config'     => array(),
+            'date_format'   => \IntlDateFormatter::SHORT,
+            'time_format'   => \IntlDateFormatter::SHORT,
+            'data_timezone' => null,
+            'user_timezone' => null, 
+            'calendar'      => \IntlDateFormatter::GREGORIAN, 
         );
     }
     protected function joinJqConfig($jq_config)

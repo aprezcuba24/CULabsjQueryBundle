@@ -15,4 +15,8 @@ class PhpToJqEn implements PhpToJqInterface
         
         return isset ($pattern_php[$pattern])? $pattern_php[$pattern]: "'mm/dd/yy'";
     }
+    public function datetimepickerPattern($pattern)
+    {
+        throw new \Exception('No implementado');
+    }
 }
