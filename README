@@ -65,3 +65,25 @@ DatetimepickerType
 Permite la creación de datepicker, usando el plugin "http://trentrichardson.com/examples/timepicker/"
 
     $builder->add('fecha', 'jquery_datetimepicker')
+
+jq_remote_form
+--------------
+Esta función de twig permite enviar a través de ajax un formulario, que puede también contener ficheros. Utiliza el plugin de jQuery "http://malsup.com/jquery/form/". El uso básico es el siguiente.
+
+    <form id="formulario" action="#" method="post">
+      {{ form_widget(form) }}
+      <input type="submit" value="Enviar"/>
+      <span id="indicador" style="display: none">Registrando...</span>
+    </form>
+    {{ jq_remote_form('formulario', {
+        'update':   'zona_update', 
+        'url':      path('la_ruta_a_utilizar'),
+        'complete': "jQuery('#indicador').hide();",
+        'loading':  "jQuery('#indicador').show();",
+    }) }}
+    <div id="zona_update"></div>
+
+
+
+
+
