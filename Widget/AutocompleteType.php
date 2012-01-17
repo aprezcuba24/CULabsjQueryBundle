@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\ChoiceList\ArrayChoiceList;
 
 class AutocompleteType extends AbstractType
 {
+    protected $container;
+    
     /**
      * Constructor.
      *

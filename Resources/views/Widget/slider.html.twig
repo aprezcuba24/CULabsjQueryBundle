@@ -1,0 +1,20 @@
+{% block jquery_slider_widget %}
+{% spaceless %}
+    <div class="slider">
+        <span class="slider_indicator" id="{{ id }}_indicator">{{ value }}</span>
+        <div id="{{ id }}_slider"></div>
+        <span style="display: none">
+            {{ block('integer_widget') }}
+        </span>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+    $(function() {
+        $( "#{{ id }}_slider" ).slider({
+            {{ jq_config|raw }}
+        });
+    });
+    //]]>
+    </script>
+{% endspaceless %}
+{% endblock jquery_slider_widget %}

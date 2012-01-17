@@ -83,6 +83,12 @@ Esta función de twig permite enviar a través de ajax un formulario, que puede 
     }) }}
     <div id="zona_update"></div>
 
+SliderType
+----------
+Incluido el Widget slider.
+
+    $builder->add('numero', 'jquery_slider')
+
 
 
 

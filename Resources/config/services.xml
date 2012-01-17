@@ -26,7 +26,11 @@
         </service>
         
         <!-- Form extension -->
-        <service id="form.type.jquery.autocomplete" class="CULabs\jQueryBundle\Widget\AutocompleteType">
+        <service id="form.type.jquery.autocomplete" class="CULabs\jQueryBundle\Widget\SliderType">
+            <tag name="form.type" alias="jquery_slider" />
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="form.type.jquery.slider" class="CULabs\jQueryBundle\Widget\AutocompleteType">
             <tag name="form.type" alias="jquery_autocomplete" />
             <argument type="service" id="service_container" />
         </service>
