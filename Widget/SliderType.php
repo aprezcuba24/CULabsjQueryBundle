@@ -14,7 +14,6 @@ class SliderType extends IntegerType
 
     /**
      * Constructor.
-     *
      * @param ContainerInterface $container A container.
      */
     public function __construct(ContainerInterface $container)
