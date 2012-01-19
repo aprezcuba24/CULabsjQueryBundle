@@ -59,6 +59,11 @@
             <tag name="jquery.phptojq" alias="en" />
         </service>
         
+        <!--TokenParser-->
+        <service id="jquery.phptojq.es" class="CULabs\jQueryBundle\Twig\TokenParser\TokenParserExtension">
+            <tag name="twig.extension" />
+        </service>
+        
     </services>
     
 </container>

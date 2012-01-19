@@ -3,7 +3,6 @@
 namespace CULabs\jQueryBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Pagerfanta\PagerfantaInterface;
 
 /**
  * Description of AjaxExtension

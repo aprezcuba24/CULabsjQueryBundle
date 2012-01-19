@@ -89,7 +89,57 @@ Incluido el Widget slider.
 
     $builder->add('numero', 'jquery_slider')
 
+Tabs Widget
+-----------
+A través del uso de "etiquetas" de twig se puede crear un componente tab de jQuery. Acontinuación tres ejeplos.
 
+    {# Tabs simple con tres pestañas  #}
+    {% jqtabs %}
+        {% jqtabitem title 'One'|trans %}
+            <p>{{ 'One'|trans }}</p>
+        {% endjqtabitem %}
+        {% jqtabitem title 'two'|trans %}
+            <p>{{ 'Two'|trans }}</p>
+        {% endjqtabitem %}
+        {% jqtabitem title 'Three'|trans %}
+            <p>{{ 'Three'|trans }}</p>
+        {% endjqtabitem %}
+    {% endjqtabs %}
 
+    {# Ejemplo de paso de valores para la configuracion y manipulación del objeto con javascript #}
+    {% jqtabs config { 'event': '"mouseover"' } js_name 'my_tab' %}
+        {% for i in 1..5 %}
+            {% jqtabitem title 'title ' ~ i %}
+                <p>{{ i }}</p>
+            {% endjqtabitem %}
+        {% endfor %}
+        {% jqtabitem title 'Last'|trans %}
+            <p>{{ 'Last'|trans }}</p>
+        {% endjqtabitem %}
+    {% endjqtabs %}
 
+    <script type="text/javascript">
+        my_tab.bind("tabsadd", function (event, ui) {
+            $( ui.panel ).append( "<p>body</p>" );
+        });
+        my_tab.tabs( "add", "#tabs-q", 'title' );
+    </script>
 
+    {# Ejemplo de Tabs anidados #}
+    {% jqtabs %}
+        {% jqtabitem title 'One'|trans %}
+            <p>{{ 'One'|trans }}</p>
+        {% endjqtabitem %}
+        {% jqtabitem title 'two'|trans %}
+            <p>{{ 'Two'|trans }}</p>
+        {% endjqtabitem %}
+        {% jqtabitem title 'Three'|trans %}
+           {% jqtabs %}
+               {% for i in 1..5 %}
+                   {% jqtabitem title 'title ' ~ i %}
+                      <p>{{ i }}</p>
+                   {% endjqtabitem %}
+               {% endfor %}
+           {% endjqtabs %}
+        {% endjqtabitem %}
+    {% endjqtabs %}
