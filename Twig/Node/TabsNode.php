@@ -48,10 +48,11 @@ class TabsNode extends \Twig_Node
                      ->subcompile($this->getAttribute('jq_config'), true)
                      ->raw(" as \$key => \$item) {\n")
                      ->indent()
-                         ->write('$context[\'tabs_config\'] .= sprintf(\'%s: %s, \', $key, $item);')
+                         ->write('$context[\'tabs_config\'] .= sprintf(\'%s: %s, \', $key, $item)."\n";')
                      ->outdent()
-                     ->raw('$context[\'tabs_config\'] = substr($context[\'tabs_config\'], 0, strlen($context[\'tabs_config\']) - 2);')
-                     ->write("}\n");
+                     ->write("}\n")
+                     ->write('$context[\'tabs_config\'] = substr($context[\'tabs_config\'], 0, strlen($context[\'tabs_config\']) - 2);')
+            ;
         }
         
         $compiler->write(sprintf('echo "<div id =\'%s\'>\n";'."\n", $id))

@@ -91,7 +91,7 @@ Incluido el Widget slider.
 
 Tabs Widget
 -----------
-A través del uso de "etiquetas" de twig se puede crear un componente tab de jQuery. Acontinuación tres ejeplos.
+A través del uso de "etiquetas" de twig se puede crear un componente "Tab" de jQuery. Acontinuación tres ejeplos.
 
     {# Tabs simple con tres pestañas  #}
     {% jqtabs %}
@@ -143,3 +143,27 @@ A través del uso de "etiquetas" de twig se puede crear un componente tab de jQu
            {% endjqtabs %}
         {% endjqtabitem %}
     {% endjqtabs %}
+
+Dialog Widget
+-------------
+A través del uso de "etiquetas" de twig se puede crear un componente "Dialog" de jQuery. Acontinuación tres ejeplos.
+
+    {# Ejemplo simple #}
+    {% jqdialog config {'title':'"Demo"'} %}
+        <p>Text in the body</p>
+    {% endjqdialog %}
+
+    {# Paso de más parámetros de configuración y creación de un botón. #}
+    <script type="text/javascript">
+        function my_function()
+        {
+            $( this ).dialog( "close" );
+        }
+    </script>                
+    {% jqdialog config {
+        'title':'"Demo"', 
+        'modal':'true', 
+        'buttons':'{Ok:my_function}'
+    } js_name 'my_dialog' %}
+        <p>Text in the body</p>
+    {% endjqdialog %}

@@ -12,6 +12,7 @@ class TokenParserExtension extends \Twig_Extension
         return array(
             new TabsTokenParser(),
             new TabItemTokenParser(),
+            new DialogTokenParser(),
         );
     }
     
