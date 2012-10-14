@@ -1,0 +1,20 @@
+{
+    "name": "culabs/jquery-bundle",
+    "type": "symfony-bundle",
+    "description": "Easy integration of jquery into symfony2",
+    "keywords": ["ajax", "form"],
+    "license": "MIT",
+    "version": "master",
+    "authors": [
+        {
+            "name": "Alejandro Pérez Cuba",
+            "email": "aprezcuba24@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "CULabs\\jQueryBundle": ""
+        }
+    },
+    "target-dir": "CULabs/jQueryBundle"
+}
