@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\Exception\FormException;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -25,7 +25,7 @@ class AutocompleteDoctrineType extends AbstractType implements DataTransformerIn
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (!$options['url']) {
             throw new FormException('The "url" option no must be null');
@@ -50,7 +50,7 @@ class AutocompleteDoctrineType extends AbstractType implements DataTransformerIn
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form)
+    public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $this->container->get('twig.extension.form.jquery')->setTheme($view, array('CULabsjQueryBundle:Widget:doctrine_autocomplete.html.twig'));
         
@@ -97,7 +97,7 @@ class AutocompleteDoctrineType extends AbstractType implements DataTransformerIn
     /**
      * {@inheritdoc}
      */
-    public function getParent(array $options)
+    public function getParent()
     {
         return 'field';
     }
